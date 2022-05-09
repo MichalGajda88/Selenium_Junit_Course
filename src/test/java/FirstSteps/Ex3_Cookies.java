@@ -17,7 +17,8 @@ public class Ex3_Cookies {
 
     @BeforeEach
     public void driverSetup() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src//main//resources//chromedriver");
         driver = new ChromeDriver();
         driver.manage().window().setSize(new Dimension(1920, 1080));
         driver.manage().window().setPosition(new Point(30, 30));
