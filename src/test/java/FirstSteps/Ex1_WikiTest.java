@@ -9,7 +9,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Ex2_WikiTest {
+public class Ex1_WikiTest {
     WebDriver driver;
 
     @BeforeEach

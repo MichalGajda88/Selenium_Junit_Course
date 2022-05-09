@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.GregorianCalendar;
 
-public class Ex3_Cookies {
+public class Ex2_Cookies {
     WebDriver driver;
 
     @BeforeEach

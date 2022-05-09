@@ -9,7 +9,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Ex4_WindowSettings {
+public class Ex3_WindowSettings {
     WebDriver driver;
 
     @BeforeEach
