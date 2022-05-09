@@ -13,13 +13,13 @@ public class ManageWindow {
     WebDriver driver;
 
     @BeforeEach
-    public void setupDriver() throws InterruptedException {
-        // System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "src//main//resources//chromedriver");
+    public void setupDriver(){
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "src//main//resources//chromedriver");
         driver = new ChromeDriver();
         driver.manage().window().setPosition(new Point(30,30));
         driver.manage().window().setSize(new Dimension(1920,1080));
-        Thread.sleep(1500);
+        driver.get("https://www.onet.pl");
     }
 
     @AfterEach
@@ -35,5 +35,17 @@ public class ManageWindow {
 
         Dimension dimension = driver.manage().window().getSize();
         Assertions.assertEquals(new Dimension(1920,1080), dimension, "Window dimensions are incorrect");
+    }
+
+    @Test
+    public void setFullScreen() throws InterruptedException {
+        Thread.sleep(2000);
+        driver.manage().window().fullscreen();
+    }
+
+    @Test
+    public void setMaximize() throws InterruptedException {
+        Thread.sleep(2000);
+        driver.manage().window().maximize();
     }
 }
