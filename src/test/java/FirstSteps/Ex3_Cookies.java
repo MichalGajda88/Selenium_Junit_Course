@@ -14,7 +14,6 @@ import java.util.GregorianCalendar;
 
 public class Ex3_Cookies {
     WebDriver driver;
-    Cookie test_cookie;
 
     @BeforeEach
     public void driverSetup() throws InterruptedException {
@@ -41,7 +40,7 @@ public class Ex3_Cookies {
     // points 2, 3, 4
     @Test
     public void addAndDeleteCookie() {
-        test_cookie = new Cookie("test_name", "test_value", "pl.wikipedia.org", "/",
+        Cookie test_cookie = new Cookie("test_name", "test_value", "pl.wikipedia.org", "/",
                 new GregorianCalendar(2022, 6, 2).getTime(), true, true);
 
         driver.manage().addCookie(test_cookie);
