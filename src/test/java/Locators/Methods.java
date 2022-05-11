@@ -44,18 +44,23 @@ public class Methods {
     }
 
     @Test
-    public void findElementsByClass() {
-        List<WebElement> extiwClassElements = driver.findElements(By.className("extiw"));
-        WebElement sameClassName = null;
+    public void findElementWith2Classes() {
+        List<WebElement> externalClassElements = driver.findElements(By.className("external"));
+        WebElement twoClassesElement = null;
 
-        for (WebElement extiwClassElement : extiwClassElements) {
-            String elementClass = extiwClassElement.getAttribute("class");
+        for (WebElement externalClassElement : externalClassElements) {
+            String elementClass = externalClassElement.getAttribute("class");
 
-            if (elementClass.equals("extiw")) {
-                sameClassName = extiwClassElement;
+            if (elementClass.equals("external text")) {
+                twoClassesElement = externalClassElement;
             }
         }
-        Assertions.assertTrue(sameClassName != null, "Element was not found");
+        Assertions.assertNotNull(twoClassesElement, "Element was not found");
+    }
+
+    @Test
+    public void findByTagName() {
+      int links = driver.findElements(By.tagName("link")).size();
     }
 
 }
