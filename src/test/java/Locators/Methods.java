@@ -60,7 +60,12 @@ public class Methods {
 
     @Test
     public void findByTagName() {
-      int links = driver.findElements(By.tagName("link")).size();
+      int numberOfLinks = driver.findElements(By.tagName("link")).size();
     }
 
+    @Test
+    public void findByLinkText(){
+        driver.findElement(By.linkText("Wikiwersytet"));
+        int text = driver.findElements(By.partialLinkText("Portal")).size();
+    }
 }
