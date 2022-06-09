@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.util.concurrent.TimeUnit;
+
 public class Ex1_Atributes_tags_text {
     WebDriver driver;
 
@@ -15,15 +17,18 @@ public class Ex1_Atributes_tags_text {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @BeforeEach
     public void addProductsToCart() {
         //dodać waity
         driver.get("https://fakestore.testelka.pl/product-category/wspinaczka/");
+        driver.findElement(By.cssSelector(".woocommerce-store-notice__dismiss-link")).click();
         driver.findElement(By.xpath(".//a[@data-product_id='4114']")).click();
         driver.findElement(By.xpath(".//a[@data-product_id='42']")).click();
-        driver.get("https://fakestore.testelka.pl/koszyk/");
+        driver.findElement(By.cssSelector("a[class='cart-contents']")).click();
     }
 
     @AfterEach
