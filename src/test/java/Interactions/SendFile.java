@@ -6,9 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class SendFile {
@@ -32,16 +31,13 @@ public class SendFile {
     }
 
     @Test
-    public void activeButtonTest(){
-        driver.findElement(By.cssSelector("span[class='login-bar'] > button[value='sign-in']")).click();
+    public void uploadFileTest(){
+        WebElement inputFile = driver.findElement(By.cssSelector("input[type='file']"));
+        String expectedName = "basiclinuxcommands.jpg";
+        String filePath = "I:\\Java-projects\\Kurs-Testelka\\test\\src\\main\\resources\\" + expectedName;
 
-        driver.findElement(By.cssSelector("input[name='login']")).sendKeys("biosys");
-        driver.findElement(By.cssSelector("input[name='password']")).sendKeys("biosys1234");
-        driver.findElement(By.cssSelector("form[method='POST']")).submit();
-
-        String login = driver.findElement(By.cssSelector("span[class='site-nav__link'] > strong")).getText().toLowerCase(Locale.ROOT);
-
-        Assertions.assertEquals("biosys", login, "Incorrect login");
+        inputFile.sendKeys(filePath);
+        String actualName = driver.findElement(By.xpath(".//tbody[@id='fileHolder']/tr/td[1]")).getText();
+        Assertions.assertEquals(expectedName, actualName, "Name of the file is different than expected");
     }
-}
 }

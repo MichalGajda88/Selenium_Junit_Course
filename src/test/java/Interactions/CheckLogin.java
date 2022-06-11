@@ -32,7 +32,7 @@ public class CheckLogin {
     }
 
     @Test
-    public void activeButtonTest(){
+    public void loginTest(){
         driver.findElement(By.cssSelector("span[class='login-bar'] > button[value='sign-in']")).click();
 
         driver.findElement(By.cssSelector("input[name='login']")).sendKeys("biosys");
