@@ -14,18 +14,36 @@ import java.util.concurrent.TimeUnit;
 public class Ex_LoginTest {
     WebDriver driver;
     String correctName = "biosysit",
+            correctEmail = "biosysit@gmail.com",
+            incorrectEmail = "dasszxfe@gmail.com",
             correctPassword = "biosys1234",
-            incorrectValue = "abcd1234",
-            emailDomain = "@gmail.com";
+            incorrectValue = "abcd1234";
 
     String expectedIncorrectEmailAlert = "Nieznany adres e-mail. Proszę sprawdzić ponownie lub wypróbować swoją nazwę użytkownika.",
-            expectedIncorrectNameAlert = "Błąd: Brak " + incorrectValue +" wśród zarejestrowanych w witrynie użytkowników. " +
+            expectedIncorrectNameAlert = "Błąd: Brak " + incorrectValue + " wśród zarejestrowanych w witrynie użytkowników. " +
                     "Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.",
             expectedEmptyNameAlert = "Błąd: Nazwa użytkownika jest wymagana.",
-            expectedIncorrectPasswordForEmailAlert = "Błąd: Dla adresu e-mail " + correctName + emailDomain +
+            expectedIncorrectPasswordForEmailAlert = "Błąd: Dla adresu e-mail " + correctEmail +
                     " podano nieprawidłowe hasło. Nie pamiętasz hasła?",
             expectedIncorrectPasswordForNameAlert = "Błąd: Wprowadzone hasło dla użytkownika biosysit jest niepoprawne. Nie pamiętasz hasła?",
             expectedEmptyPasswordAlert = "Błąd: Hasło jest puste.";
+
+    private void userRegister(String userNameOrEmail, String userPassword) {
+        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
+                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
+                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
+
+        loginField.sendKeys(userNameOrEmail);
+        passwordField.sendKeys(userPassword);
+        loginButton.click();
+    }
+    private String getUserName(){
+        return driver.findElement(By.cssSelector("div[class='woocommerce-MyAccount-content'] p strong")).getText();
+    }
+
+    private String getAlertText(){
+        return driver.findElement(By.cssSelector("ul[role='alert']")).getText();
+    }
 
     @BeforeEach
     public void driverSetup() {
@@ -47,141 +65,69 @@ public class Ex_LoginTest {
 
     @Test
     public void correctEmailCorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(correctName + emailDomain);
-        passwordField.sendKeys(correctPassword);
-        loginButton.click();
-
-        String currentLoginName = driver.findElement(By.cssSelector("div[class='woocommerce-MyAccount-content'] p strong")).getText();
-        Assertions.assertEquals(correctName, currentLoginName, "Log in failed");
+        userRegister(correctEmail, correctPassword);
+        Assertions.assertEquals(correctName, getUserName(), "Log in failed");
     }
 
     @Test
     public void correctNameCorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(correctName);
-        passwordField.sendKeys(correctPassword);
-        loginButton.click();
-
-        String currentLoginName = driver.findElement(By.cssSelector("div[class='woocommerce-MyAccount-content'] p strong")).getText();
-        Assertions.assertEquals(correctName, currentLoginName, "Log in failed");
+        userRegister(correctName, correctPassword);
+        Assertions.assertEquals(correctName, getUserName(), "Log in failed");
     }
 
     @Test
     public void incorrectEmailIncorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(incorrectValue + emailDomain);
-        passwordField.sendKeys(incorrectValue);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedIncorrectEmailAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(incorrectEmail, incorrectValue);
+        Assertions.assertEquals(expectedIncorrectEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectEmailAlert);
     }
 
     @Test
     public void correctNameIncorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(correctName);
-        passwordField.sendKeys(incorrectValue);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedIncorrectPasswordForNameAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(correctName, incorrectValue);
+        Assertions.assertEquals(expectedIncorrectPasswordForNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectPasswordForEmailAlert);
     }
 
     @Test
     public void correctEmailIncorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(correctName + emailDomain);
-        passwordField.sendKeys(incorrectValue);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedIncorrectPasswordForEmailAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(correctEmail, incorrectValue);
+        Assertions.assertEquals(expectedIncorrectPasswordForEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectPasswordForEmailAlert);
     }
 
     @Test
     public void incorrectEmailCorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(incorrectValue + emailDomain);
-        passwordField.sendKeys(correctPassword);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedIncorrectEmailAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(incorrectEmail, correctPassword);
+        Assertions.assertEquals(expectedIncorrectEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectEmailAlert);
     }
 
     @Test
     public void incorrectNameCorrectPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(incorrectValue);
-        passwordField.sendKeys(correctPassword);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedIncorrectNameAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(incorrectValue, correctPassword);
+        Assertions.assertEquals(expectedIncorrectNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectNameAlert);
     }
 
     @Test
     public void emptyNameOrEmail() {
-        WebElement passwordField = driver.findElement(By.cssSelector("input[id='password']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        passwordField.sendKeys(correctPassword);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedEmptyNameAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister("", correctPassword);
+        Assertions.assertEquals(expectedEmptyNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyNameAlert);
     }
 
     @Test
     public void emptyPassword() {
-        WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
-                loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginField.sendKeys(incorrectValue);
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedEmptyPasswordAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister(correctName, "");
+        Assertions.assertEquals(expectedEmptyPasswordAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyPasswordAlert);
     }
 
     @Test
     public void emptyNameAndPassword() {
-        WebElement loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
-
-        loginButton.click();
-
-        String currentAlert = driver.findElement(By.cssSelector("ul[role='alert']")).getText();
-        Assertions.assertEquals(expectedEmptyNameAlert, currentAlert, "Alert different than expected. Expected: " +
+        userRegister("", "");
+        Assertions.assertEquals(expectedEmptyNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyNameAlert);
     }
 }
