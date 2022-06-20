@@ -28,7 +28,7 @@ public class Ex_LoginTest {
             expectedIncorrectPasswordForNameAlert = "Błąd: Wprowadzone hasło dla użytkownika biosysit jest niepoprawne. Nie pamiętasz hasła?",
             expectedEmptyPasswordAlert = "Błąd: Hasło jest puste.";
 
-    private void userRegister(String userNameOrEmail, String userPassword) {
+    private void userLogIn(String userNameOrEmail, String userPassword) {
         WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
                 passwordField = driver.findElement(By.cssSelector("input[id='password']")),
                 loginButton = driver.findElement(By.cssSelector("button[class*='woocommerce-form-login__submit']"));
@@ -65,68 +65,68 @@ public class Ex_LoginTest {
 
     @Test
     public void correctEmailCorrectPassword() {
-        userRegister(correctEmail, correctPassword);
+        userLogIn(correctEmail, correctPassword);
         Assertions.assertEquals(correctName, getUserName(), "Log in failed");
     }
 
     @Test
     public void correctNameCorrectPassword() {
-        userRegister(correctName, correctPassword);
+        userLogIn(correctName, correctPassword);
         Assertions.assertEquals(correctName, getUserName(), "Log in failed");
     }
 
     @Test
     public void incorrectEmailIncorrectPassword() {
-        userRegister(incorrectEmail, incorrectValue);
+        userLogIn(incorrectEmail, incorrectValue);
         Assertions.assertEquals(expectedIncorrectEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectEmailAlert);
     }
 
     @Test
     public void correctNameIncorrectPassword() {
-        userRegister(correctName, incorrectValue);
+        userLogIn(correctName, incorrectValue);
         Assertions.assertEquals(expectedIncorrectPasswordForNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectPasswordForEmailAlert);
     }
 
     @Test
     public void correctEmailIncorrectPassword() {
-        userRegister(correctEmail, incorrectValue);
+        userLogIn(correctEmail, incorrectValue);
         Assertions.assertEquals(expectedIncorrectPasswordForEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectPasswordForEmailAlert);
     }
 
     @Test
     public void incorrectEmailCorrectPassword() {
-        userRegister(incorrectEmail, correctPassword);
+        userLogIn(incorrectEmail, correctPassword);
         Assertions.assertEquals(expectedIncorrectEmailAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectEmailAlert);
     }
 
     @Test
     public void incorrectNameCorrectPassword() {
-        userRegister(incorrectValue, correctPassword);
+        userLogIn(incorrectValue, correctPassword);
         Assertions.assertEquals(expectedIncorrectNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedIncorrectNameAlert);
     }
 
     @Test
     public void emptyNameOrEmail() {
-        userRegister("", correctPassword);
+        userLogIn("", correctPassword);
         Assertions.assertEquals(expectedEmptyNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyNameAlert);
     }
 
     @Test
     public void emptyPassword() {
-        userRegister(correctName, "");
+        userLogIn(correctName, "");
         Assertions.assertEquals(expectedEmptyPasswordAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyPasswordAlert);
     }
 
     @Test
     public void emptyNameAndPassword() {
-        userRegister("", "");
+        userLogIn("", "");
         Assertions.assertEquals(expectedEmptyNameAlert, getAlertText(), "Alert different than expected. Expected: " +
                 expectedEmptyNameAlert);
     }
