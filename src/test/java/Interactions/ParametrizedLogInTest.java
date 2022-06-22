@@ -13,20 +13,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class ParametrizedTest {
+public class ParametrizedLogInTest {
     WebDriver driver;
-    String
-
+    String userExpectedName = "biosysit",
             password = "biosys1234";
-
-    String expectedIncorrectEmailAlert = "Nieznany adres e-mail. Proszę sprawdzić ponownie lub wypróbować swoją nazwę użytkownika.",
-            expectedIncorrectNameAlert = "Błąd: Brak " + " wśród zarejestrowanych w witrynie użytkowników. " +
-                    "Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.",
-            expectedEmptyNameAlert = "Błąd: Nazwa użytkownika jest wymagana.",
-            expectedIncorrectPasswordForEmailAlert = "Błąd: Dla adresu e-mail "  +
-                    " podano nieprawidłowe hasło. Nie pamiętasz hasła?",
-            expectedIncorrectPasswordForNameAlert = "Błąd: Wprowadzone hasło dla użytkownika biosysit jest niepoprawne. Nie pamiętasz hasła?",
-            expectedEmptyPasswordAlert = "Błąd: Hasło jest puste.";
 
     private void userLogIn(String userNameOrEmail, String userPassword) {
         WebElement loginField = driver.findElement(By.cssSelector("input[id='username']")),
@@ -37,11 +27,12 @@ public class ParametrizedTest {
         passwordField.sendKeys(userPassword);
         loginButton.click();
     }
-    private String getUserName(){
+
+    private String getUserName() {
         return driver.findElement(By.cssSelector("div[class='woocommerce-MyAccount-content'] p strong")).getText();
     }
 
-    private String getAlertText(){
+    private String getAlertText() {
         return driver.findElement(By.cssSelector("ul[role='alert']")).getText();
     }
 
@@ -63,13 +54,29 @@ public class ParametrizedTest {
         driver.quit();
     }
 
-    @DisplayName("Possitive case")
+    @DisplayName("Successful log in")
     @ParameterizedTest(name = "User: \"{0}\"")
     @CsvSource({"biosysit", "biosysit@gmail.com"})
-
-    void possitiveCase (String userName){
+    void possitiveCases(String userName) {
         userLogIn(userName, password);
-        Assertions.assertTrue(getUserName().contains(userName), "Incorrect user name: " + userName + " Expected user name: " + getUserName());
+        Assertions.assertTrue(getUserName().contains(userExpectedName), "Incorrect user name: " + userName +
+                " Expected user name: " + getUserName());
+    }
+
+    @DisplayName("Unsuccessful log in")
+    @ParameterizedTest(name = "User: {0}  password: {1}")
+    @CsvSource({"wrongEmail@sasas.pl, wrongPassoword, Nieznany adres e-mail. Proszę sprawdzić ponownie lub wypróbować swoją nazwę użytkownika.",
+            "wrongName, wrongPassword, 'Błąd: Brak wrongName wśród zarejestrowanych w witrynie użytkowników. Jeśli nie masz pewności co do nazwy użytkownika, użyj adresu e-mail.'",
+            "'', wrongPassword, 'Błąd: Nazwa użytkownika jest wymagana.'",
+            "biosysit@gmail.com, wrongPassword, 'Błąd: Dla adresu e-mail biosysit@gmail.com podano nieprawidłowe hasło. Nie pamiętasz hasła?'",
+            "biosysit, wrongPassword, 'Błąd: Wprowadzone hasło dla użytkownika biosysit jest niepoprawne. Nie pamiętasz hasła?'",
+            "biosysit, '', 'Błąd: Hasło jest puste.'",
+            "biosysit@gmail.com, '', 'Błąd: Hasło jest puste.'",
+            "'', '', 'Błąd: Nazwa użytkownika jest wymagana.'"})
+    void negativeCases(String userName, String password, String expectedAlertText) {
+        userLogIn(userName, password);
+        Assertions.assertEquals(expectedAlertText, getAlertText(), "Alert message: " + getAlertText() + " is different than expected one: " +
+                expectedAlertText);
     }
 }
 
