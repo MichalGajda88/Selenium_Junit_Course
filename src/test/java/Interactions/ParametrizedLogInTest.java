@@ -10,11 +10,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class ParametrizedLogInTest {
     WebDriver driver;
+    WebDriverWait wait;
     String userExpectedName = "biosysit",
             password = "biosys1234";
 
@@ -40,9 +43,10 @@ public class ParametrizedLogInTest {
     public void driverSetup() {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
 
         driver.manage().window().maximize();
 
@@ -57,7 +61,7 @@ public class ParametrizedLogInTest {
     @DisplayName("Successful log in")
     @ParameterizedTest(name = "User: \"{0}\"")
     @CsvSource({"biosysit", "biosysit@gmail.com"})
-    void possitiveCases(String userName) {
+    void positiveCases(String userName) {
         userLogIn(userName, password);
         Assertions.assertTrue(getUserName().contains(userExpectedName), "Incorrect user name: " + userName +
                 " Expected user name: " + getUserName());
