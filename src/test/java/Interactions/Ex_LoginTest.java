@@ -38,11 +38,12 @@ public class Ex_LoginTest {
         passwordField.sendKeys(userPassword);
         loginButton.click();
     }
-    private String getUserName(){
+
+    private String getUserName() {
         return driver.findElement(By.cssSelector("div[class='woocommerce-MyAccount-content'] p strong")).getText();
     }
 
-    private String getAlertText(){
+    private String getAlertText() {
         return driver.findElement(By.cssSelector("ul[role='alert']")).getText();
     }
 
