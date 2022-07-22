@@ -33,11 +33,15 @@ public class Ex_ExpectedConditions {
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class*='blockOverlay']"), 0));
     }
 
-    public String getAlertText() {
+    public String getErrorText() {
         currentMessage = driver.findElement(By.cssSelector("ul[class='woocommerce-error']")).getText();
         return currentMessage;
     }
 
+    public String getMessageText() {
+        currentMessage = driver.findElement(By.cssSelector("div[class='woocommerce-message']")).getText();
+        return currentMessage;
+    }
     @BeforeEach
     public void driverSetup() {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
@@ -62,19 +66,28 @@ public class Ex_ExpectedConditions {
     @Test
     public void correctValue() {
         enterCouponAndWait(driver, wait, correctCoupon);
-        Assertions.assertEquals(expectedCorrectCouponMessage, getAlertText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedCorrectCouponMessage, getMessageText(), "Alert text is different than expected one");
     }
 
     @Test
+    public void usedValue() {
+        int i = 0;
+        while (i<2){
+        enterCouponAndWait(driver, wait, correctCoupon);
+        i++;
+        }
+        Assertions.assertEquals(expectedUsedCouponMessage, getErrorText(), "Alert text is different than expected one");
+    }
+    @Test
     public void wrongValue(){
         enterCouponAndWait(driver, wait, wrongCoupon);
-        Assertions.assertEquals(expectedWrongCouponMessage, getAlertText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedWrongCouponMessage, getErrorText(), "Alert text is different than expected one");
     }
 
     @Test
     public void emptyValue(){
         enterCouponAndWait(driver, wait, "");
-        Assertions.assertEquals(expectedEmptyCouponMessage, getAlertText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedEmptyCouponMessage, getErrorText(), "Alert text is different than expected one");
     }
 
 }
