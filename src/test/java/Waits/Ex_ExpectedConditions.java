@@ -19,11 +19,11 @@ public class Ex_ExpectedConditions {
     WebDriverWait wait;
     String correctCoupon = "10procent",
             wrongCoupon = "12321",
-            expectedEmptyCouponMessage = "Proszę wpisać kod kuponu.",
-            expectedCorrectCouponMessage = "Kupon został pomyślnie użyty.",
-            expectedWrongCouponMessage = "Kupon \"" + wrongCoupon + "\" nie istnieje!",
-            expectedUsedCouponMessage = "Kupon został zastosowany!",
-            currentMessage;
+            expectedEmptyCouponAlert = "Proszę wpisać kod kuponu.",
+            expectedCorrectCouponAlert = "Kupon został pomyślnie użyty.",
+            expectedWrongCouponAlert = "Kupon \"" + wrongCoupon + "\" nie istnieje!",
+            expectedUsedCouponAlert = "Kupon został zastosowany!",
+            currentAlert;
 
     public void enterCouponAndWait(@NotNull WebDriver driver, @NotNull WebDriverWait wait, String value) {
         WebElement couponInput = driver.findElement(By.cssSelector("input[id='coupon_code']"));
@@ -33,15 +33,11 @@ public class Ex_ExpectedConditions {
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class*='blockOverlay']"), 0));
     }
 
-    public String getErrorText() {
-        currentMessage = driver.findElement(By.cssSelector("ul[class='woocommerce-error']")).getText();
-        return currentMessage;
+    public String getAlertText() {
+        By currentAlert = By.cssSelector("[role='alert']");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(currentAlert)).getText();
     }
 
-    public String getMessageText() {
-        currentMessage = driver.findElement(By.cssSelector("div[class='woocommerce-message']")).getText();
-        return currentMessage;
-    }
     @BeforeEach
     public void driverSetup() {
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
@@ -66,28 +62,28 @@ public class Ex_ExpectedConditions {
     @Test
     public void correctValue() {
         enterCouponAndWait(driver, wait, correctCoupon);
-        Assertions.assertEquals(expectedCorrectCouponMessage, getMessageText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedCorrectCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
 
     @Test
     public void usedValue() {
         int i = 0;
-        while (i<2){
-        enterCouponAndWait(driver, wait, correctCoupon);
-        i++;
+        while (i < 2) {
+            enterCouponAndWait(driver, wait, correctCoupon);
+            i++;
         }
-        Assertions.assertEquals(expectedUsedCouponMessage, getErrorText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedUsedCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
+
     @Test
-    public void wrongValue(){
+    public void wrongValue() {
         enterCouponAndWait(driver, wait, wrongCoupon);
-        Assertions.assertEquals(expectedWrongCouponMessage, getErrorText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedWrongCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
 
     @Test
-    public void emptyValue(){
+    public void emptyValue() {
         enterCouponAndWait(driver, wait, "");
-        Assertions.assertEquals(expectedEmptyCouponMessage, getErrorText(), "Alert text is different than expected one");
+        Assertions.assertEquals(expectedEmptyCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
-
 }
