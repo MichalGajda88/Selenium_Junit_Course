@@ -23,13 +23,18 @@ public class Ex_ExpectedConditions {
             expectedCorrectCouponAlert = "Kupon został pomyślnie użyty.",
             expectedWrongCouponAlert = "Kupon \"" + wrongCoupon + "\" nie istnieje!",
             expectedUsedCouponAlert = "Kupon został zastosowany!",
-            currentAlert;
+            expectedRemovedCouponAlert = "Kupon został usunięty.";
 
-    public void enterCouponAndWait(@NotNull WebDriver driver, @NotNull WebDriverWait wait, String value) {
+    public void enterCouponAndWait(String value) {
         WebElement couponInput = driver.findElement(By.cssSelector("input[id='coupon_code']"));
         couponInput.clear();
         couponInput.sendKeys(value);
         driver.findElement(By.cssSelector("button[name='apply_coupon']")).click();
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class*='blockOverlay']"), 0));
+    }
+
+    public void removeCouponAndWait() {
+        driver.findElement(By.cssSelector("a[class='woocommerce-remove-coupon']")).click();
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div[class*='blockOverlay']"), 0));
     }
 
@@ -61,7 +66,7 @@ public class Ex_ExpectedConditions {
 
     @Test
     public void correctValue() {
-        enterCouponAndWait(driver, wait, correctCoupon);
+        enterCouponAndWait(correctCoupon);
         Assertions.assertEquals(expectedCorrectCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
 
@@ -69,7 +74,7 @@ public class Ex_ExpectedConditions {
     public void usedValue() {
         int i = 0;
         while (i < 2) {
-            enterCouponAndWait(driver, wait, correctCoupon);
+            enterCouponAndWait(correctCoupon);
             i++;
         }
         Assertions.assertEquals(expectedUsedCouponAlert, getAlertText(), "Alert text is different than expected one");
@@ -77,13 +82,20 @@ public class Ex_ExpectedConditions {
 
     @Test
     public void wrongValue() {
-        enterCouponAndWait(driver, wait, wrongCoupon);
+        enterCouponAndWait(wrongCoupon);
         Assertions.assertEquals(expectedWrongCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
 
     @Test
     public void emptyValue() {
-        enterCouponAndWait(driver, wait, "");
+        enterCouponAndWait("");
         Assertions.assertEquals(expectedEmptyCouponAlert, getAlertText(), "Alert text is different than expected one");
+    }
+
+    @Test
+    public void removeCoupon() {
+        correctValue();
+        removeCouponAndWait();
+        Assertions.assertEquals(expectedRemovedCouponAlert, getAlertText(), "Alert text is different than expected one");
     }
 }
