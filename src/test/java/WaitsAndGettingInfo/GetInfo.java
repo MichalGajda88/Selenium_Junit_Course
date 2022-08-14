@@ -3,9 +3,7 @@ package WaitsAndGettingInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class GetInfo {
@@ -30,6 +28,14 @@ public class GetInfo {
     public void getElementInfo(){
     header = driver.findElement(By.cssSelector("[id='masthead']"));
     String text = header.getText();
-
+    String attribute = header.getAttribute("role");
+    String cssValue = header.getCssValue("color");
+    Dimension size = header.getSize();
+    String tagName = header.getTagName();
+    Point location = header.getLocation();
+    Rectangle locationAndPosition = header.getRect();
+    Boolean isDisplayed = header.isDisplayed();
+    Boolean isSelected = header.isSelected();
+    Boolean isEnabled = header.isEnabled();
     }
 }
