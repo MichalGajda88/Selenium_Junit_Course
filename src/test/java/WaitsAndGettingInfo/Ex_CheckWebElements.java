@@ -37,13 +37,13 @@ public class Ex_CheckWebElements {
     @Test
     public void isActive() {
         WebElement mainPageButton = driver.findElement(By.cssSelector("input[type='button']"));
-        assertEquals(false, mainPageButton.isEnabled(), "State of button is different than expected one");
+        assertFalse(mainPageButton.isEnabled(), "State of button is different than expected one");
     }
 
     @Test
     public void isVisible() {
         WebElement sailingButton = driver.findElement(By.cssSelector("a[name='sailing']"));
-        assertEquals(false, sailingButton.isDisplayed(), "State of button is different than expected one");
+        assertFalse(sailingButton.isDisplayed(), "State of button is different than expected one");
     }
 
     @Test
