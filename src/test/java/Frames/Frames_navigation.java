@@ -8,12 +8,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class Frames_basics {
+public class Frames_navigation {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -32,11 +31,14 @@ public class Frames_basics {
     }
 
     @Test
-    public void framesBasics() {
+    public void framesNaviTest() {
         WebElement twitterFrame = driver.findElement(By.cssSelector("iframe[id='twitter-widget-0']"));
         driver.switchTo().frame(twitterFrame);
         WebElement viewTwitter = driver.findElement(By.cssSelector("a[class='css-4rbku5 css-18t94o4 css-1dbjc4n r-l5o3uw r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr']"));
         viewTwitter.click();
         driver.switchTo().defaultContent();
+        WebElement logo = driver.findElement(By.cssSelector("div[id='navbar'] a[title='Home Page']"));
+
+        Assertions.assertTrue(logo.isDisplayed(), "");
     }
 }
