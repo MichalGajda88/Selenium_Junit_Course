@@ -34,7 +34,7 @@ public class Frames_navigation {
     public void framesNaviTest() {
         WebElement twitterFrame = driver.findElement(By.cssSelector("iframe[id='twitter-widget-0']"));
         driver.switchTo().frame(twitterFrame);
-        WebElement viewTwitter = driver.findElement(By.cssSelector("a[class='css-4rbku5 css-18t94o4 css-1dbjc4n r-l5o3uw r-sdzlij r-1phboty r-rs99b7 r-1loqt21 r-2yi16 r-1qi8awa r-1ny4l3l r-ymttw5 r-o7ynqc r-6416eg r-lrvibr']"));
+        WebElement viewTwitter = driver.findElement(By.cssSelector("div[class='css-1dbjc4n r-6koalj r-18u37iz r-1777fci']"));
         viewTwitter.click();
         driver.switchTo().defaultContent();
         WebElement logo = driver.findElement(By.cssSelector("div[id='navbar'] a[title='Home Page']"));
