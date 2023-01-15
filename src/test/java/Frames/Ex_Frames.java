@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class Frames_navigation {
+public class Ex_Frames {
     WebDriver driver;
     WebDriverWait wait;
 
@@ -22,7 +22,7 @@ public class Frames_navigation {
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().window().maximize();
-        driver.navigate().to("https://www.nasa.gov/topics/earth/index.html");
+        driver.navigate().to("https://fakestore.testelka.pl/cwiczenia-z-ramek/");
     }
 
     @AfterEach
@@ -31,14 +31,15 @@ public class Frames_navigation {
     }
 
     @Test
-    public void framesNaviTest() {
-        WebElement twitterFrame = driver.findElement(By.cssSelector("iframe[id='twitter-widget-0']"));
-        driver.switchTo().frame(twitterFrame);
-        WebElement viewTwitter = driver.findElement(By.cssSelector("div[class='css-1dbjc4n r-6koalj r-18u37iz r-1777fci']"));
-        viewTwitter.click();
-        driver.switchTo().defaultContent();
-        WebElement logo = driver.findElement(By.cssSelector("div[id='navbar'] a[title='Home Page']"));
+    public void frameContentTest() {
+        driver.switchTo().frame("main-frame");
+        //1. Potwierdź, że pierwszy przycisk „Strona główna” jest nieaktywny.
+        WebElement mainPageButton = driver.findElement(By.cssSelector("input[name='main-page']"));
+        Assertions.assertFalse(mainPageButton.isEnabled(), "State of main page button is different than expected one");
 
-        Assertions.assertTrue(logo.isDisplayed(), "Logo is not displayed");
+        //2. Potwierdź, że obrazek kieruje do strony głównej (sprawdź bez klikania w element).
+        driver.switchTo().frame("image");
+        String mainPageAddress = "https://fakestore.testelka.pl/";
+        WebElement mainPageImage = driver.findElement(By.cssSelector("img[alt='Wakacje']"));
     }
 }
