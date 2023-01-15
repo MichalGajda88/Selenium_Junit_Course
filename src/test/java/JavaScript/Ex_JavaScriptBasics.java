@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class Ex_JavaScriptBasics {
     WebDriver driver;
@@ -34,10 +35,17 @@ public class Ex_JavaScriptBasics {
 
     @Test
     public void scrollToElement() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement startElement = driver.findElement(By.cssSelector("li[id='tab-title-description']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", startElement);
         WebElement addToCartBar = driver.findElement(By.cssSelector("div[class='storefront-sticky-add-to-cart__content']"));
         Assertions.assertTrue(addToCartBar.isDisplayed(), "Web element: " + addToCartBar + "is missing");
+    }
+
+    @Test
+    public void scrollToElement2() {
+        WebElement startElement = driver.findElement(By.cssSelector("li[id='tab-title-description']"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", startElement);
+        List<WebElement>cartBar = driver.findElements(By.cssSelector("div[class='storefront-sticky-add-to-cart__content']"));
+        Assertions.assertTrue(cartBar.size()==1,"");
     }
 }
