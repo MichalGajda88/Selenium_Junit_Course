@@ -29,6 +29,20 @@ public class AlertTypes {
         driver.quit();
     }
     @Test
+    public void alertTest(){
+        String alert = "alert('This is alert!')";
+        js.executeScript(alert);
+        driver.switchTo().alert().accept();
+    }
+    @Test
+    public void confirmTest(){
+        String confirm = "confirm('Accept this or dismiss')";
+        js.executeScript(confirm);
+        driver.switchTo().alert().accept();
+        js.executeScript(confirm);
+        driver.switchTo().alert().dismiss();
+    }
+    @Test
     public void promptTest(){
         String prompt = "prompt('Input text: ')";
         js.executeScript(prompt);
