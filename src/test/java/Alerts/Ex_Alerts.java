@@ -58,7 +58,7 @@ public class Ex_Alerts {
     }
 
     @Test
-    public void confirmCancelation() {
+    public void confirmCancellation() {
         clickAndWaitForAlert(buttonConfirm);
         driver.switchTo().alert().dismiss();
         WebElement confirmResultText = driver.findElement(By.cssSelector("p[id='demo']"));
