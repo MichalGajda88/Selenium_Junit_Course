@@ -40,7 +40,11 @@ public class WindowHandlesTest {
         WebElement ytButton = driver.findElement(By.cssSelector("span[class='dashicons dashicons-video-alt3']"));
         js.executeScript("arguments[0].scrollIntoView(true)", ytButton);
         ytButton.click();
-        Set<String> windowHandles = driver.getWindowHandles();
+        Set<String> windows = driver.getWindowHandles();
+        String blogWindow = driver.getWindowHandle();
+        windows.remove(blogWindow);
+        String ytWindow = windows.iterator().next();
+        driver.switchTo().window(ytWindow);
     }
 
 }

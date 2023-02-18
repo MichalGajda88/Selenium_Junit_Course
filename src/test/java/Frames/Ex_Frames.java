@@ -24,8 +24,10 @@ public class Ex_Frames {
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().window().maximize();
         driver.navigate().to("https://fakestore.testelka.pl/cwiczenia-z-ramek/");
-        WebElement hideButton = driver.findElement(By.cssSelector("a.woocommerce-store-notice__dismiss-link"));
-        hideButton.click();
+
+        WebElement cookieButton = driver.findElement(By.cssSelector("a.woocommerce-store-notice__dismiss-link"));
+        cookieButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(cookieButton));
     }
 
     @AfterEach
