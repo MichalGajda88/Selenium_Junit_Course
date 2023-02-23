@@ -1,6 +1,7 @@
 package WindowHandles;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -26,7 +27,7 @@ public class WindowHandlesTest {
         js = (JavascriptExecutor) driver;
         driver.manage().window().maximize();
         driver.navigate().to("https://testelka.pl/blog/");
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         WebElement cookieAcceptButton = driver.findElement(By.cssSelector("a[id='cookie_action_close_header']"));
         cookieAcceptButton.click();
         wait.until(ExpectedConditions.invisibilityOf(cookieAcceptButton));
@@ -45,6 +46,12 @@ public class WindowHandlesTest {
         windows.remove(blogWindow);
         String ytWindow = windows.iterator().next();
         driver.switchTo().window(ytWindow);
+        WebElement policyAcceptButton = driver.findElement(By.xpath(".//span[text()='Zaakceptuj wszystko']"));
+        policyAcceptButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(policyAcceptButton));
+        WebElement ytLogo = driver.findElement(By.cssSelector(".style-scope ytd-logo"));
+        Assertions.assertTrue(ytLogo.isDisplayed(),"YT logo is missing.");
+        driver.switchTo().window(blogWindow);
     }
 
 }
