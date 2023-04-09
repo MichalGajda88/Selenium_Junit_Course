@@ -38,7 +38,7 @@ public class Ex_DropDownList {
 
         category = driver.findElement(By.cssSelector("li[class='product-category product first']"));
         category.click();
-        sortList = driver.findElement(By.cssSelector("select[class='orderby']"));
+        sortList = driver.findElements(By.cssSelector("select[class='orderby']")).get(0);
         sortOption = new Select(sortList);
     }
 

@@ -68,7 +68,7 @@ aplikacji webowych przy użyciu narzędzi Selenium WebDriver 4 oraz JUnit 5 w j�
 - [x] Listy rozwijane
 - [x] Zadanie: listy rozwijane
 ### 9. Gesty
-- [ ] Gesty w Selenium: wstęp
+- [x] Gesty w Selenium: wstęp
 - [ ] Gesty w Selenium: klik, podwójny klik oraz prawy przycisk myszy
 - [ ] Gesty w Selenium: zdarzenia klawiatury i wysyłanie tekstu
 - [ ] Zadanie: gesty w Selenium
