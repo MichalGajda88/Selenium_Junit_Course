@@ -71,7 +71,7 @@ aplikacji webowych przy użyciu narzędzi Selenium WebDriver 4 oraz JUnit 5 w j�
 - [x] Gesty w Selenium: wstęp
 - [x] Gesty w Selenium: klik, podwójny klik oraz prawy przycisk myszy
 - [x] Gesty w Selenium: zdarzenia klawiatury i wysyłanie tekstu
-- [ ] Zadanie: gesty w Selenium
+- [x] Zadanie: gesty w Selenium
 - [ ] Gesty w Selenium: przesuwanie obiektów
 - [ ] Zadanie: przesuwanie obiektów
 ### 10. Wyższa szkoła jazdy cz.2
